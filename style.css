@@ -1,0 +1,60 @@
+/**
+ * Theme Name:  Shoelace
+ * Theme URI:   http://wordpress.org/themes
+ * Description: A free Bootstrap theme for WordPress
+ * Author:      Teo Maragakis
+ * Author URI:  http://www.teomaragakis.com
+ * Version:     0.1.0
+ * Tags:        Bootstrap, Grunt
+ *
+ * License:     GPLv2+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+ /* Navigation menu */
+
+.navbar-default { padding-bottom: 20px;}
+
+  ul.submenu {
+    list-style: none;
+  }
+  ul.submenu li {
+  }
+
+ @media only screen and (min-width: 768px) {
+   ul.submenu {
+  position: absolute;
+  display: none;
+  width: 200%;
+  z-index: 999999;
+  background-color: white;
+
+  padding: 0px;
+
+ }
+ .navbar-right ul.submenu {
+   right: 0;
+ }
+ ul.submenu li {
+   padding: 10px 20px;
+   transition: background-color 0.3s;
+   display: list-item;
+   margin-left: 0;
+ }
+  ul.submenu li a {
+
+  }
+   .nav li:hover ul,
+   .nav li ul.submenu li {
+    display: block;
+  }
+
+.nav li ul.submenu li:hover {
+  background-color: #eea814;
+}
+.nav li ul.submenu li:hover a {
+  text-decoration: none;
+  color: #1d186a;
+}
+ }
+
