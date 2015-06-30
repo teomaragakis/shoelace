@@ -161,6 +161,9 @@ function add_responsive_class($content){
 
 add_filter ('the_content', 'add_responsive_class');
 
+// less.php compiler
+require_once 'includes/less.php/Less.php';
+
 // Recommended and required plugins
 //require_once 'includes/tgm-plugin-activation-2.4.2/class-tgm-plugin-activation.php';
 require_once 'includes/tgm-plugin-activation-2.4.2/plugins.php';
