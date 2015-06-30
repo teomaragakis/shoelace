@@ -46,7 +46,7 @@ function my_theme_register_required_plugins() {
         array(
             'name'               => 'SeedProd Coming Soon Pro', // The plugin name.
             'slug'               => 'seedprod-coming-soon-pro', // The plugin slug (typically the folder name).
-            'source'             => get_stylesheet_directory() . '/includes/plugins/seedprod-coming-soon-pro-3.15.2', // The plugin source.
+            'source'             => get_template_directory_uri() . '/includes/plugins/seedprod-coming-soon-pro-3.15.2.zip', // The plugin source.
             'required'           => true, // If false, the plugin is only 'recommended' instead of required.
             'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher.
             'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
