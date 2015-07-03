@@ -145,6 +145,7 @@ function add_responsive_class($content){
   $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
   $document = new DOMDocument();
   libxml_use_internal_errors(true);
+  if ($content)
   $document->loadHTML(utf8_decode($content));
 
   $imgs = $document->getElementsByTagName('img');
