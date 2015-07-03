@@ -82,51 +82,50 @@ require_once('core/wp_bootstrap_navwalker.php');
   * @since 0.1.0
   */
  function shoelace_scripts_styles() {
-  $template_url = get_template_directory_uri();
-  $stylesheet_url = get_stylesheet_directory_uri();
-  $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+  $parent_theme_uri = get_template_directory_uri();
+  $child_theme_uri = get_stylesheet_directory_uri();
 
   // jQuery
 	wp_enqueue_script( 'jquery' );
 
 	// Bootstrap
-	wp_enqueue_style( 'bootstrap', $stylesheet_url . '/includes/bootstrap/dist/css/bootstrap.min.css', array(), null, 'all' );
-	wp_enqueue_script( 'bootstrap', $stylesheet_url . '/includes/bootstrap/dist/js/bootstrap.min.js', array(), null, true );
-	wp_enqueue_style( 'bootstrap-theme', $stylesheet_url . '/includes/bootstrap/dist/css/bootstrap-theme.css', array(), null, 'all' );
+	wp_enqueue_style( 'bootstrap', $parent_theme_uri . '/includes/bootstrap/css/bootstrap.min.css', array(), null, 'all' );
+	wp_enqueue_script( 'bootstrap', $parent_theme_uri . '/includes/bootstrap/js/bootstrap.min.js', array(), null, true );
+	wp_enqueue_style( 'bootstrap-theme', $child_theme_uri . '/includes/bootstrap/css/bootstrap-theme.css', array(), null, 'all' );
 
 	// Font Awesome
-	wp_enqueue_style('font-awesome', $template_url . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
+	wp_enqueue_style('font-awesome', $parent_theme_uri . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
 
 	// Child and parent stylesheets.
-	wp_enqueue_style( 'shoelace', $template_url . '/style.css', array(), null, 'all' );
+	wp_enqueue_style( 'shoelace', $parent_theme_uri . '/style.css', array(), null, 'all' );
 	wp_enqueue_style( 'shoelace-child', get_stylesheet_uri(), array(), null, 'all' );
 
 	/// OTHER
 
 	// FitVids.
-	//wp_enqueue_script( 'fitvids', $template_url . '/assets/js/jquery.fitvids.js', array(), null, true );
+	//wp_enqueue_script( 'fitvids', $parent_theme_uri . '/assets/js/jquery.fitvids.js', array(), null, true );
 
 	// Lazy Load
 	// ---------
-	//wp_enqueue_script( 'lazyload', $template_url . '/includes/lazyload/jquery.lazyload.min.js', array(), 'jquery', '1.9.5' );
+	//wp_enqueue_script( 'lazyload', $parent_theme_uri . '/includes/lazyload/jquery.lazyload.min.js', array(), 'jquery', '1.9.5' );
 
 
 	//BeLazy
-	wp_enqueue_script('belazy', $template_url.'/includes/belazy/blazy.min.js', null, '1.3.1');
+	wp_enqueue_script('belazy', $parent_theme_uri.'/includes/belazy/blazy.min.js', null, '1.3.1');
 
 	// Zoom.js
-	wp_enqueue_style('zoom-js', $template_url . '/includes/zoom/zoom.css', array(), null, 'all');
-	wp_enqueue_script( 'zoom-js', $template_url . '/includes/zoom/zoom.js', array(), null, true );
+	wp_enqueue_style('zoom-js', $parent_theme_uri . '/includes/zoom.js/zoom.css', array(), null, 'all');
+	wp_enqueue_script( 'zoom-js', $parent_theme_uri . '/includes/zoom.js/zoom.js', array(), null, true );
 
 	// jQuery FitText
-	wp_enqueue_script('fittext', $template_url.'/includes/fittext/jquery.fittext.js', 'jquery', '1.2.0');
+	wp_enqueue_script('fittext', $parent_theme_uri.'/includes/fittext/jquery.fittext.js', 'jquery', '1.2.0');
 
 	// jQuery ScrollMe
-	wp_enqueue_script('scrollme', $template_url.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
+	wp_enqueue_script('scrollme', $parent_theme_uri.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
 
 
 	// Theme's jQuery.
-	wp_enqueue_script( 'shoelace-js', $template_url . '/assets/js/shoelace.js', array(), null, true );
+	wp_enqueue_script( 'shoelace-js', $parent_theme_uri . '/assets/js/shoelace.js', array(), null, true );
  }
  add_action( 'wp_enqueue_scripts', 'shoelace_scripts_styles' );
 
@@ -152,7 +151,6 @@ function add_responsive_class($content){
   foreach ($imgs as $img) {
     $existing_class = $img->getAttribute('class');
     $img->setAttribute('class', "img-responsive $existing_class");
-    //$img->setAttribute('class','img-responsive');
     $img->setAttribute('data-action','zoom');
   }
 
@@ -166,5 +164,4 @@ add_filter ('the_content', 'add_responsive_class');
 require_once 'includes/less.php/Less.php';
 
 // Recommended and required plugins
-//require_once 'includes/tgm-plugin-activation-2.4.2/class-tgm-plugin-activation.php';
 require_once 'includes/tgm-plugin-activation-2.4.2/plugins.php';
