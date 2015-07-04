@@ -96,8 +96,23 @@ require_once('core/wp_bootstrap_navwalker.php');
 	// Font Awesome
 	wp_enqueue_style('font-awesome', $parent_theme_uri . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
 
-	// Child and parent stylesheets.
+	// Parent style.css
 	wp_enqueue_style( 'shoelace', $parent_theme_uri . '/style.css', array(), null, 'all' );
+
+	// less.php compiler
+  require_once 'includes/less.php/Less.php';
+
+  try {
+    $parser = new Less_Parser(array( 'compress'=>true ));
+    $parser->parseFile( get_stylesheet_directory() . '/style.less', get_stylesheet_directory_uri() );
+    $css = $parser->getCss();
+    $imported_files = $parser->allParsedFiles();
+  } catch(Exception $e) {
+    $error_message = $e->getMessage();
+  }
+
+
+	// Child style.css
 	wp_enqueue_style( 'shoelace-child', get_stylesheet_uri(), array(), null, 'all' );
 
 	/// OTHER
@@ -159,9 +174,6 @@ function add_responsive_class($content){
 }
 
 add_filter ('the_content', 'add_responsive_class');
-
-// less.php compiler
-require_once 'includes/less.php/Less.php';
 
 // Recommended and required plugins
 require_once 'includes/tgm-plugin-activation-2.4.2/plugins.php';
