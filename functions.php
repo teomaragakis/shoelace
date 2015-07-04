@@ -102,14 +102,11 @@ require_once('core/wp_bootstrap_navwalker.php');
 	// less.php compiler
   require_once 'includes/less.php/Less.php';
 
-  try {
-    $parser = new Less_Parser(array( 'compress'=>true ));
-    $parser->parseFile( get_stylesheet_directory() . '/style.less', get_stylesheet_directory_uri() );
-    $css = $parser->getCss();
-    $imported_files = $parser->allParsedFiles();
-  } catch(Exception $e) {
-    $error_message = $e->getMessage();
-  }
+
+  $parser = new Less_Parser(array( 'compress'=>true ));
+  $parser->parseFile( get_stylesheet_directory() . '/style.less', get_stylesheet_directory_uri() . 'asda' );
+  $css = $parser->getCss();
+
 
 
 	// Child style.css
