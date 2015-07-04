@@ -1,19 +1,51 @@
 <?php
 /**
- * Shoelace functions and definitions
- *
- * When using a child theme (see http://codex.wordpress.org/Theme_Development and
- * http://codex.wordpress.org/Child_Themes), you can override certain functions
- * (those wrapped in a function_exists() call) by defining them first in your child theme's
- * functions.php file. The child theme's functions.php file is included before the parent
- * theme's file, so the child theme functions would be used.
- *
- * @package Shoelace
- * @since 0.1.0
- */
+* Shoelace functions and definitions
+*
+* When using a child theme (see http://codex.wordpress.org/Theme_Development and
+* http://codex.wordpress.org/Child_Themes), you can override certain functions
+* (those wrapped in a function_exists() call) by defining them first in your child theme's
+* functions.php file. The child theme's functions.php file is included before the parent
+* theme's file, so the child theme functions would be used.
+*
+* @package Shoelace
+* @since 0.1.0
+*/
 
- // Useful global constants
+// Useful global constants
 define( 'SHOELACE_VERSION', '0.1.0' );
+define( 'PARENT_THEME_URI', get_template_directory_uri());
+define( 'CHILD_THEME_URI', get_stylesheet_directory_uri());
+
+/*
+* Loads the Options Panel
+*
+* If you're loading from a child theme use stylesheet_directory
+* instead of template_directory
+*/
+
+define( 'OPTIONS_FRAMEWORK_DIRECTORY', PARENT_THEME_URI . '/core/options-framework/' );
+require_once dirname( __FILE__ ) . '/core/options-framework/options-framework.php';
+require_once get_template_directory() . '/options.php';
+
+function optionsframework_custom_scripts() { ?>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+
+    	jQuery('#example_showhidden').click(function() {
+      		jQuery('#section-example_text_hidden').fadeToggle(400);
+    	});
+
+    	if (jQuery('#example_showhidden:checked').val() !== undefined) {
+    		jQuery('#section-example_text_hidden').show();
+    	}
+
+    });
+  </script>
+
+<?php }
+add_action( 'optionsframework_custom_scripts', 'optionsframework_custom_scripts' );
 
 add_theme_support( 'post-thumbnails' );
 
@@ -82,22 +114,20 @@ require_once('core/wp_bootstrap_navwalker.php');
   * @since 0.1.0
   */
  function shoelace_scripts_styles() {
-  $parent_theme_uri = get_template_directory_uri();
-  $child_theme_uri = get_stylesheet_directory_uri();
 
   // jQuery
 	wp_enqueue_script( 'jquery' );
 
 	// Bootstrap
-	wp_enqueue_style( 'bootstrap', $parent_theme_uri . '/includes/bootstrap/css/bootstrap.min.css', array(), null, 'all' );
-	wp_enqueue_script( 'bootstrap', $parent_theme_uri . '/includes/bootstrap/js/bootstrap.min.js', array(), null, true );
-	wp_enqueue_style( 'bootstrap-theme', $child_theme_uri . '/includes/bootstrap/css/bootstrap-theme.css', array(), null, 'all' );
+	wp_enqueue_style( 'bootstrap', PARENT_THEME_URI . '/includes/bootstrap/css/bootstrap.min.css', array(), null, 'all' );
+	wp_enqueue_script( 'bootstrap', PARENT_THEME_URI . '/includes/bootstrap/js/bootstrap.min.js', array(), null, true );
+	wp_enqueue_style( 'bootstrap-theme', CHILD_THEME_URI . '/includes/bootstrap/css/bootstrap-theme.css', array(), null, 'all' );
 
 	// Font Awesome
-	wp_enqueue_style('font-awesome', $parent_theme_uri . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
+	wp_enqueue_style('font-awesome', PARENT_THEME_URI . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
 
 	// Parent style.css
-	wp_enqueue_style( 'shoelace', $parent_theme_uri . '/style.css', array(), null, 'all' );
+	wp_enqueue_style( 'shoelace', PARENT_THEME_URI . '/style.css', array(), null, 'all' );
 
 	// less.php compiler
   require_once 'includes/less.php/Less.php';
@@ -115,29 +145,29 @@ require_once('core/wp_bootstrap_navwalker.php');
 	/// OTHER
 
 	// FitVids.
-	//wp_enqueue_script( 'fitvids', $parent_theme_uri . '/assets/js/jquery.fitvids.js', array(), null, true );
+	//wp_enqueue_script( 'fitvids', PARENT_THEME_URI . '/assets/js/jquery.fitvids.js', array(), null, true );
 
 	// Lazy Load
 	// ---------
-	//wp_enqueue_script( 'lazyload', $parent_theme_uri . '/includes/lazyload/jquery.lazyload.min.js', array(), 'jquery', '1.9.5' );
+	//wp_enqueue_script( 'lazyload', PARENT_THEME_URI . '/includes/lazyload/jquery.lazyload.min.js', array(), 'jquery', '1.9.5' );
 
 
 	//BeLazy
-	wp_enqueue_script('belazy', $parent_theme_uri.'/includes/belazy/blazy.min.js', null, '1.3.1');
+	wp_enqueue_script('belazy', PARENT_THEME_URI.'/includes/belazy/blazy.min.js', null, '1.3.1');
 
 	// Zoom.js
-	wp_enqueue_style('zoom-js', $parent_theme_uri . '/includes/zoom.js/zoom.css', array(), null, 'all');
-	wp_enqueue_script( 'zoom-js', $parent_theme_uri . '/includes/zoom.js/zoom.js', array(), null, true );
+	wp_enqueue_style('zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.css', array(), null, 'all');
+	wp_enqueue_script( 'zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.js', array(), null, true );
 
 	// jQuery FitText
-	wp_enqueue_script('fittext', $parent_theme_uri.'/includes/fittext/jquery.fittext.js', 'jquery', '1.2.0');
+	wp_enqueue_script('fittext', PARENT_THEME_URI.'/includes/fittext/jquery.fittext.js', 'jquery', '1.2.0');
 
 	// jQuery ScrollMe
-	wp_enqueue_script('scrollme', $parent_theme_uri.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
+	wp_enqueue_script('scrollme', PARENT_THEME_URI.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
 
 
 	// Theme's jQuery.
-	wp_enqueue_script( 'shoelace-js', $parent_theme_uri . '/assets/js/shoelace.js', array(), null, true );
+	wp_enqueue_script( 'shoelace-js', PARENT_THEME_URI . '/assets/js/shoelace.js', array(), null, true );
  }
  add_action( 'wp_enqueue_scripts', 'shoelace_scripts_styles' );
 
