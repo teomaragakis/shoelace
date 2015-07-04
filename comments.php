@@ -52,6 +52,10 @@ if ( post_password_required() ) {
 		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentyfifteen' ); ?></p>
 	<?php endif;
 
+	$commenter = wp_get_current_commenter();
+  $req = get_option( 'require_name_email' );
+  $aria_req = ( $req ? " aria-required='true'" : '' );
+
 	$comment_args = array(
   	'class_submit' => 'btn btn-default',
   	'comment_field' =>  '<div class="form-group comment-form-comment"><label for="comment" class="control-label">' . _x( 'Comment', 'noun' ) .
@@ -59,25 +63,25 @@ if ( post_password_required() ) {
     '</textarea></div>',
     'fields' => array(
 
-  'author' =>
-    '<div class="form-group comment-form-author"><label class="control-label" for="author">' . __( 'Name', 'shoelace' ) . '</label> ' .
-    ( $req ? '<span class="required">*</span>' : '' ) .
-    '<input id="author" class="form-control" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
-    '"' . $aria_req . ' /></div>',
+      'author' =>
+        '<div class="form-group comment-form-author"><label class="control-label" for="author">' . __( 'Name', 'shoelace' ) . '</label> ' .
+        ( $req ? '<span class="required">*</span>' : '' ) .
+        '<input id="author" class="form-control" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
+        '"' . $aria_req . ' /></div>',
 
-  'email' =>
-    '<div class="form-group comment-form-email"><label class="control-label" for="email">' . __( 'Email', 'shoelace' ) . '</label> ' .
-    ( $req ? '<span class="required">*</span>' : '' ) .
-    '<input id="email" class="form-control" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) .
-    '"' . $aria_req . ' /></div>',
+      'email' =>
+        '<div class="form-group comment-form-email"><label class="control-label" for="email">' . __( 'Email', 'shoelace' ) . '</label> ' .
+        ( $req ? '<span class="required">*</span>' : '' ) .
+        '<input id="email" class="form-control" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) .
+        '"' . $aria_req . ' /></div>',
 
-  'url' =>
-    '<div class="form-group comment-form-url"><label class="control-label" for="url">' . __( 'Website', 'shoelace' ) . '</label>' .
-    '<input id="url" class="form-control" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
-    '" /></div>',
-),
+      'url' =>
+        '<div class="form-group comment-form-url"><label class="control-label" for="url">' . __( 'Website', 'shoelace' ) . '</label>' .
+        '<input id="url" class="form-control" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
+        '" /></div>',
+    ),
 	);
 
 	comment_form($comment_args); ?>
 
-</div><!-- .comments-area -->
+  </div><!-- .comments-area -->
