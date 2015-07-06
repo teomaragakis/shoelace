@@ -28,6 +28,33 @@ define( 'OPTIONS_FRAMEWORK_DIRECTORY', PARENT_THEME_URI . '/core/options-framewo
 require_once dirname( __FILE__ ) . '/core/options-framework/options-framework.php';
 require_once get_template_directory() . '/options.php';
 
+/*
+ * Helper function to return the theme option value. If no value has been saved, it returns $default.
+ * Needed because options are saved as serialized strings.
+ *
+ * This code allows the theme to work without errors if the Options Framework plugin has been disabled.
+ */
+
+if ( !function_exists( 'of_get_option' ) ) {
+function of_get_option($name, $default = false) {
+
+	$optionsframework_settings = get_option('optionsframework');
+
+	// Gets the unique option id
+	$option_name = $optionsframework_settings['id'];
+
+	if ( get_option($option_name) ) {
+		$options = get_option($option_name);
+	}
+
+	if ( isset($options[$name]) ) {
+		return $options[$name];
+	} else {
+		return $default;
+	}
+}
+}
+
 function optionsframework_custom_scripts() { ?>
 
   <script type="text/javascript">
@@ -47,19 +74,24 @@ function optionsframework_custom_scripts() { ?>
 <?php }
 add_action( 'optionsframework_custom_scripts', 'optionsframework_custom_scripts' );
 
+show_admin_bar( false );
+//wp_dequeue_style( 'admin-bar' );
+
 add_theme_support( 'post-thumbnails' );
 
- $custom_header = array(
-			'width'         => 0,
-			'height'        => 0,
-			'flex-height'   => false,
-			'flex-width'    => false,
-			'header-text'   => false,
-			'default-image' => '',
-			'uploads'       => true,
-		);
+/*
+$custom_header = array(
+	'width'         => 0,
+	'height'        => 0,
+	'flex-height'   => false,
+	'flex-width'    => false,
+	'header-text'   => false,
+	'default-image' => '',
+	'uploads'       => true,
+);
 
 add_theme_support( 'custom-header', $custom_header );
+*/
 
 $custom_bg = array(
 	'default-color' => '',
@@ -104,7 +136,8 @@ require_once('core/wp_bootstrap_navwalker.php');
 	 * If you're building a theme based on Shoelace, use a find and replace
 	 * to change 'shoelace' to the name of your theme in all template files.
 	 */
-	load_theme_textdomain( 'shoelace', get_template_directory() . '/languages' );
+	//load_theme_textdomain( 'shoelace', get_template_directory() . '/languages' );
+	// http://codex.wordpress.org/Function_Reference/load_theme_textdomain
  }
  add_action( 'after_setup_theme', 'shoelace_setup' );
 
