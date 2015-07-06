@@ -21,7 +21,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-	<link href="<?php echo get_template_directory_uri(); ?>/favicon.png" rel="shortcut icon" />
+	<?php
+  	$favicon = get_stylesheet_directory_uri() . '/favicon.png';
+  	if (of_get_option('favicon')) $favicon = of_get_option('favicon');
+  ?>
+	<link href="<?php echo $favicon; ?>" rel="shortcut icon" />
 	<!--[if lt IE 9]>
 	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/html5.js"></script>
 	<![endif]-->
@@ -29,13 +33,36 @@
 </head>
 <body <?php body_class(); ?>>
 		<header id="header" role="banner">
-			<?php if ( is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo home_url(); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
-			<?php else : ?>
-				<div class="site-title h1"><a href="<?php echo home_url(); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></div>
-				<div class="site-description h2"><?php bloginfo( 'description' ); ?></div>
-			<?php endif ?>
+  		<nav id="main-navigation" class="navbar navbar-default <?php if(of_get_option('navbar_pos')=='fixed-top') { echo 'navbar-fixed-top'; } ?>" role="navigation">
+  			<div class="container">
+  				<div class="navbar-header">
+  					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-navigation">
+    					<span class="sr-only"><?php _e( 'Toggle navigation', 'shoelace' ); ?></span>
+  						<span class="icon-bar"></span>
+  						<span class="icon-bar"></span>
+  						<span class="icon-bar"></span>
+  					</button>
+    				<a class="navbar-brand" href="<?php echo home_url(); ?>" rel="home">
+      				<img class="logo img-responsive" src="<?php echo of_get_option('logo_image'); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"/>
+      		  </a>
+          </div>
+          <?php
+            wp_nav_menu( array(
+                'menu'              => 'main-navigation',
+                'theme_location'    => 'main-navigation',
+                'depth'             => 2,
+                'container'         => 'div',
+                'container_class'   => 'collapse navbar-collapse',
+        'container_id'      => 'navbar',
+                'menu_class'        => 'nav navbar-nav',
+                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+                'walker'            => new wp_bootstrap_navwalker())
+            );
+
+        ?>
+				  <div class="collapse navbar-collapse navbar-main-navigation"></div><!-- .navbar-collapse -->
+  			</div><!-- .container -->
+			</nav><!-- #main-menu -->
 
 			<?php
 				$header_image = get_header_image();
@@ -43,23 +70,4 @@
 			?>
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $header_image ); ?>" height="<?php esc_attr_e( $header_image->height ); ?>" width="<?php esc_attr_e( $header_image->width ); ?>" alt="" /></a>
 			<?php endif; ?>
-
-			<nav id="main-navigation" class="navbar navbar-default navbar-fixed-top" role="navigation">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-navigation">
-					<span class="sr-only"><?php _e( 'Toggle navigation', 'shoelace' ); ?></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<?php /*
-
-					<a class="navbar-brand" href="<?php echo home_url(); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-
-					*/ ?>
-				</div>
-
-				<div class="collapse navbar-collapse navbar-main-navigation">
-				</div><!-- .navbar-collapse -->
-			</nav><!-- #main-menu -->
 		</header><!-- #header -->
