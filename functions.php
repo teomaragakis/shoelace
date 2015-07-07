@@ -237,3 +237,6 @@ add_filter ('the_content', 'add_responsive_class');
 
 // Recommended and required plugins
 require_once 'includes/tgm-plugin-activation-2.4.2/plugins.php';
+
+// https://github.com/joshtronic/php-loremipsum
+require_once 'core/php-loremipsum/LoremIpsum.php';
