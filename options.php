@@ -5,36 +5,67 @@
 function optionsframework_option_name() {
 
 	// Change this to use your theme slug
-	return 'loki-options';
+	return 'shoelace-options';
 }
 
 /**
  * Defines an array of options that will be used to generate the settings page and be saved in the database.
  * When creating the 'id' fields, make sure to use all lowercase and no spaces.
  *
- * If you are making your theme translatable, you should replace 'loki'
+ * If you are making your theme translatable, you should replace 'shoelace'
  * with the actual text domain for your theme.  Read more:
  * http://codex.wordpress.org/Function_Reference/load_theme_textdomain
  */
 
 function optionsframework_options() {
 
-	// Test data
-	$test_array = array(
-		'one' => __('One', 'loki'),
-		'two' => __('Two', 'loki'),
-		'three' => __('Three', 'loki'),
-		'four' => __('Four', 'loki'),
-		'five' => __('Five', 'loki')
+  $navbar_pos_array = array(
+		'none' => __('None', 'shoelace'),
+		'fixed-top' => __('Fixed on top', 'shoelace')
 	);
+
+	// Scripts
+
+	$scripts_defaults = array(
+		'fontawesome' => '1',
+		'zoomjs' => '1',
+		'fitvids' => '1'
+	);
+
+	$scripts_array = array(
+		'fontawesome' => __('Font Awesome', 'shoelace'),
+		'belazy' => __('BeLazy', 'shoelace'),
+		'zoomjs' => __('zoom.js', 'shoelace'),
+		'fitvids' => __('FitVids', 'shoelace')
+  );
+
+  $jquery_defaults = array(
+
+	);
+
+	$jquery_plugins = array(
+  	'fittext' => __('FitText','shoelace'),
+  	'scrollme' => __('ScrollMe','shoelace') //https://github.com/nckprsn/scrollme
+	);
+
+	// Test data
+	/*$test_array = array(
+		'one' => __('One', 'shoelace'),
+		'two' => __('Two', 'shoelace'),
+		'three' => __('Three', 'shoelace'),
+		'four' => __('Four', 'shoelace'),
+		'five' => __('Five', 'shoelace')
+	);
+
+
 
 	// Multicheck Array
 	$multicheck_array = array(
-		'one' => __('French Toast', 'loki'),
-		'two' => __('Pancake', 'loki'),
-		'three' => __('Omelette', 'loki'),
-		'four' => __('Crepe', 'loki'),
-		'five' => __('Waffle', 'loki')
+		'one' => __('French Toast', 'shoelace'),
+		'two' => __('Pancake', 'shoelace'),
+		'three' => __('Omelette', 'shoelace'),
+		'four' => __('Crepe', 'shoelace'),
+		'five' => __('Waffle', 'shoelace')
 	);
 
 	// Multicheck Defaults
@@ -64,7 +95,7 @@ function optionsframework_options() {
 		'faces' => array( 'Helvetica Neue' => 'Helvetica Neue','Arial' => 'Arial' ),
 		'styles' => array( 'normal' => 'Normal','bold' => 'Bold' ),
 		'color' => false
-	);
+	); */
 
 	// Pull all the categories into an array
 	$options_categories = array();
@@ -80,8 +111,15 @@ function optionsframework_options() {
 		$options_tags[$tag->term_id] = $tag->name;
 	}
 
-
 	// Pull all the pages into an array
+	$options_pages = array();
+	$options_pages_obj = get_pages('sort_column=post_parent,menu_order');
+	$options_pages[''] = 'Select a page:';
+	foreach ($options_pages_obj as $page) {
+		$options_pages[$page->ID] = $page->post_title;
+	}
+
+	// Navigation positioning
 	$options_pages = array();
 	$options_pages_obj = get_pages('sort_column=post_parent,menu_order');
 	$options_pages[''] = 'Select a page:';
@@ -95,41 +133,58 @@ function optionsframework_options() {
 	$options = array();
 
 	$options[] = array(
-		'name' => __('Basic Settings', 'loki'),
-		'type' => 'heading');
+    'name' => __('Style', 'shoelace'),
+    'type' => 'heading'
+  );
+
+  $options[] = array(
+		'name' => __('Website Logo', 'shoelace'),
+		'desc' => __('Upload or select a logo image. It will appear in the header.', 'shoelace'),
+		'id' => 'logo_image',
+		'type' => 'upload'
+  );
+
+  $options[] = array(
+		'name' => __('Favicon', 'shoelace'),
+		'desc' => __('Upload or select a favicon.', 'shoelace'),
+		'id' => 'favicon',
+		'type' => 'upload'
+  );
+
+  /*
+	$options[] = array(
+    'name' => __('Input Text Mini', 'shoelace'),
+    'desc' => __('A mini text input field.', 'shoelace'),
+    'id' => 'example_text_mini',
+    'std' => 'Default',
+    'class' => 'mini',
+    'type' => 'text'
+  );
 
 	$options[] = array(
-		'name' => __('Input Text Mini', 'loki'),
-		'desc' => __('A mini text input field.', 'loki'),
-		'id' => 'example_text_mini',
-		'std' => 'Default',
-		'class' => 'mini',
-		'type' => 'text');
-
-	$options[] = array(
-		'name' => __('Input Text', 'loki'),
-		'desc' => __('A text input field.', 'loki'),
+		'name' => __('Input Text', 'shoelace'),
+		'desc' => __('A text input field.', 'shoelace'),
 		'id' => 'example_text',
 		'std' => 'Default Value',
 		'type' => 'text');
 
 	$options[] = array(
-		'name' => __('Input with Placeholder', 'loki'),
-		'desc' => __('A text input field with an HTML5 placeholder.', 'loki'),
+		'name' => __('Input with Placeholder', 'shoelace'),
+		'desc' => __('A text input field with an HTML5 placeholder.', 'shoelace'),
 		'id' => 'example_placeholder',
 		'placeholder' => 'Placeholder',
 		'type' => 'text');
 
 	$options[] = array(
-		'name' => __('Textarea', 'loki'),
-		'desc' => __('Textarea description.', 'loki'),
+		'name' => __('Textarea', 'shoelace'),
+		'desc' => __('Textarea description.', 'shoelace'),
 		'id' => 'example_textarea',
 		'std' => 'Default Text',
 		'type' => 'textarea');
 
 	$options[] = array(
-		'name' => __('Input Select Small', 'loki'),
-		'desc' => __('Small Select Box.', 'loki'),
+		'name' => __('Input Select Small', 'shoelace'),
+		'desc' => __('Small Select Box.', 'shoelace'),
 		'id' => 'example_select',
 		'std' => 'three',
 		'type' => 'select',
@@ -137,8 +192,8 @@ function optionsframework_options() {
 		'options' => $test_array);
 
 	$options[] = array(
-		'name' => __('Input Select Wide', 'loki'),
-		'desc' => __('A wider select box.', 'loki'),
+		'name' => __('Input Select Wide', 'shoelace'),
+		'desc' => __('A wider select box.', 'shoelace'),
 		'id' => 'example_select_wide',
 		'std' => 'two',
 		'type' => 'select',
@@ -146,8 +201,8 @@ function optionsframework_options() {
 
 	if ( $options_categories ) {
 	$options[] = array(
-		'name' => __('Select a Category', 'loki'),
-		'desc' => __('Passed an array of categories with cat_ID and cat_name', 'loki'),
+		'name' => __('Select a Category', 'shoelace'),
+		'desc' => __('Passed an array of categories with cat_ID and cat_name', 'shoelace'),
 		'id' => 'example_select_categories',
 		'type' => 'select',
 		'options' => $options_categories);
@@ -163,49 +218,68 @@ function optionsframework_options() {
 	}
 
 	$options[] = array(
-		'name' => __('Select a Page', 'loki'),
-		'desc' => __('Passed an pages with ID and post_title', 'loki'),
+		'name' => __('Select a Page', 'shoelace'),
+		'desc' => __('Passed an pages with ID and post_title', 'shoelace'),
 		'id' => 'example_select_pages',
 		'type' => 'select',
 		'options' => $options_pages);
 
 	$options[] = array(
-		'name' => __('Input Radio (one)', 'loki'),
-		'desc' => __('Radio select with default options "one".', 'loki'),
+		'name' => __('Input Radio (one)', 'shoelace'),
+		'desc' => __('Radio select with default options "one".', 'shoelace'),
 		'id' => 'example_radio',
 		'std' => 'one',
 		'type' => 'radio',
 		'options' => $test_array);
 
 	$options[] = array(
-		'name' => __('Example Info', 'loki'),
-		'desc' => __('This is just some example information you can put in the panel.', 'loki'),
+		'name' => __('Example Info', 'shoelace'),
+		'desc' => __('This is just some example information you can put in the panel.', 'shoelace'),
 		'type' => 'info');
 
 	$options[] = array(
-		'name' => __('Input Checkbox', 'loki'),
-		'desc' => __('Example checkbox, defaults to true.', 'loki'),
+		'name' => __('Input Checkbox', 'shoelace'),
+		'desc' => __('Example checkbox, defaults to true.', 'shoelace'),
 		'id' => 'example_checkbox',
 		'std' => '1',
 		'type' => 'checkbox');
 
 	$options[] = array(
-		'name' => __('Post Types', 'loki'),
-		'desc' => __('Choose which post types to enable.', 'loki'),
+		'name' => __('Post Types', 'shoelace'),
+		'desc' => __('Choose which post types to enable.', 'shoelace'),
 		'id' => 'post_types',
 		'std' => null, // These items get checked by default
 		'type' => 'multicheck',
 		'options' =>  array(
-		                'portfolio' => __('Portfolio', 'loki')
+		                'portfolio' => __('Portfolio', 'shoelace')
                   )
-  );
+  ); */
 
 
-/*== Layout Settings ==*/
+/*== Layout Settings == */
 
 	$options[] = array(
-		'name' => __('Layout Settings', 'loki'),
+		'name' => __('Layout', 'shoelace'),
 		'type' => 'heading');
+
+	$options[] = array(
+		'name' => __('Navbar position', 'shoelace'),
+		'desc' => __('How you want the navbar position set.', 'shoelace'),
+		'id' => 'navbar_pos',
+		'std' => 'none',
+		'type' => 'radio',
+		'options' => $navbar_pos_array
+  );
+
+  $options[] = array(
+		'name' => __('Header Layout', 'shoelace'),
+		'desc' => __('Header content', 'shoelace'),
+		'id' => 'header_layout',
+		'std' => 'none',
+		'type' => 'radio',
+		'options' => $navbar_pos_array
+  );
+
 
 		$options[] = array(
   		'name' => "Container Type",
@@ -231,6 +305,12 @@ function optionsframework_options() {
   			'2c-r-fixed' => $imagepath . '2cr.png')
   	);
 
+  	$options[] = array(
+		'name' => __('Show comments on pages', 'shoelace'),
+		'desc' => __('Check to show comments on pages.', 'shoelace'),
+		'id' => 'page_comments',
+		'type' => 'checkbox');
+
     $options[] = array(
   		'name' => "Post Layout",
   		'desc' => "Layout of blog posts.",
@@ -243,29 +323,50 @@ function optionsframework_options() {
   			'2c-r-fixed' => $imagepath . '2cr.png')
   	);
 
-/*==========================*/
+  		$options[] = array(
+		'name' => __('Development', 'shoelace'),
+		'type' => 'heading');
+
+		$options[] = array(
+		'name' => __('Scripts', 'shoelace'),
+		'desc' => __('Select which scripts to enable.', 'shoelace'),
+		'id' => 'dev_scripts',
+		'std' => $scripts_defaults, // These items get checked by default
+		'type' => 'multicheck',
+		'options' => $scripts_array);
+
+		$options[] = array(
+		'name' => __('jQuery Plugins', 'shoelace'),
+		'desc' => __('Select which jQuery plugins to enable.', 'shoelace'),
+		'id' => 'dev_jquery',
+		'std' => $jquery_defaults, // These items get checked by default
+		'type' => 'multicheck',
+		'options' => $jquery_plugins);
+
+
+/*==========================
 
 	$options[] = array(
-		'name' => __('Advanced Settings', 'loki'),
+		'name' => __('Advanced Settings', 'shoelace'),
 		'type' => 'heading');
 
 	$options[] = array(
-		'name' => __('Check to Show a Hidden Text Input', 'loki'),
-		'desc' => __('Click here and see what happens.', 'loki'),
+		'name' => __('Check to Show a Hidden Text Input', 'shoelace'),
+		'desc' => __('Click here and see what happens.', 'shoelace'),
 		'id' => 'example_showhidden',
 		'type' => 'checkbox');
 
 	$options[] = array(
-		'name' => __('Hidden Text Input', 'loki'),
-		'desc' => __('This option is hidden unless activated by a checkbox click.', 'loki'),
+		'name' => __('Hidden Text Input', 'shoelace'),
+		'desc' => __('This option is hidden unless activated by a checkbox click.', 'shoelace'),
 		'id' => 'example_text_hidden',
 		'std' => 'Hello',
 		'class' => 'hidden',
 		'type' => 'text');
 
 	$options[] = array(
-		'name' => __('Uploader Test', 'loki'),
-		'desc' => __('This creates a full size uploader that previews the image.', 'loki'),
+		'name' => __('Uploader Test', 'shoelace'),
+		'desc' => __('This creates a full size uploader that previews the image.', 'shoelace'),
 		'id' => 'example_uploader',
 		'type' => 'upload');
 
@@ -282,44 +383,48 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'name' =>  __('Example Background', 'loki'),
-		'desc' => __('Change the background CSS.', 'loki'),
+		'name' =>  __('Example Background', 'shoelace'),
+		'desc' => __('Change the background CSS.', 'shoelace'),
 		'id' => 'example_background',
 		'std' => $background_defaults,
 		'type' => 'background' );
 
 	$options[] = array(
-		'name' => __('Multicheck', 'loki'),
-		'desc' => __('Multicheck description.', 'loki'),
+		'name' => __('Multicheck', 'shoelace'),
+		'desc' => __('Multicheck description.', 'shoelace'),
 		'id' => 'example_multicheck',
 		'std' => $multicheck_defaults, // These items get checked by default
 		'type' => 'multicheck',
 		'options' => $multicheck_array);
 
 	$options[] = array(
-		'name' => __('Colorpicker', 'loki'),
-		'desc' => __('No color selected by default.', 'loki'),
+		'name' => __('Colorpicker', 'shoelace'),
+		'desc' => __('No color selected by default.', 'shoelace'),
 		'id' => 'example_colorpicker',
 		'std' => '',
 		'type' => 'color' );
 
-	$options[] = array( 'name' => __('Typography', 'loki'),
-		'desc' => __('Example typography.', 'loki'),
+	$options[] = array( 'name' => __('Typography', 'shoelace'),
+		'desc' => __('Example typography.', 'shoelace'),
 		'id' => "example_typography",
 		'std' => $typography_defaults,
 		'type' => 'typography' );
 
 	$options[] = array(
-		'name' => __('Custom Typography', 'loki'),
-		'desc' => __('Custom typography options.', 'loki'),
+		'name' => __('Custom Typography', 'shoelace'),
+		'desc' => __('Custom typography options.', 'shoelace'),
 		'id' => "custom_typography",
 		'std' => $typography_defaults,
 		'type' => 'typography',
 		'options' => $typography_options );
 
 	$options[] = array(
-		'name' => __('Text Editor', 'loki'),
+		'name' => __('Text Editor', 'shoelace'),
 		'type' => 'heading' );
+
+		*/
+
+
 
 	/**
 	 * For $settings options see:
@@ -329,6 +434,7 @@ function optionsframework_options() {
 	 * 'textarea_name' is set by the 'id' you choose
 	 */
 
+	 /*
 	$wp_editor_settings = array(
 		'wpautop' => true, // Default
 		'textarea_rows' => 5,
@@ -336,11 +442,13 @@ function optionsframework_options() {
 	);
 
 	$options[] = array(
-		'name' => __('Default Text Editor', 'loki'),
-		'desc' => sprintf( __( 'You can also pass settings to the editor.  Read more about wp_editor in <a href="%1$s" target="_blank">the WordPress codex</a>', 'loki' ), 'http://codex.wordpress.org/Function_Reference/wp_editor' ),
+		'name' => __('Default Text Editor', 'shoelace'),
+		'desc' => sprintf( __( 'You can also pass settings to the editor.  Read more about wp_editor in <a href="%1$s" target="_blank">the WordPress codex</a>', 'shoelace' ), 'http://codex.wordpress.org/Function_Reference/wp_editor' ),
 		'id' => 'example_editor',
 		'type' => 'editor',
 		'settings' => $wp_editor_settings );
+
+		*/
 
 	return $options;
 }
