@@ -37,6 +37,10 @@
 </section>
 <style>
 
-.carousel .fill{width:100%;height:500px;background-position:center;background-size:cover;}
+.carousel .fill{width:100%;height:800px;background-position:center;background-size:cover;}
+@media only screen and (max-width: 768px) {
+.carousel .fill{width:100%;height:500px;background-position:left;background-size:cover;}
+
+}
 </style>
 <?php } ?>
