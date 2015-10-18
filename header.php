@@ -32,42 +32,39 @@
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-		<header id="header" role="banner">
-  		<nav id="main-navigation" class="navbar navbar-default <?php if(of_get_option('navbar_pos')=='fixed-top') { echo 'navbar-fixed-top'; } ?>" role="navigation">
-  			<div class="container">
-  				<div class="navbar-header">
-  					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-navigation">
-    					<span class="sr-only"><?php _e( 'Toggle navigation', 'shoelace' ); ?></span>
-  						<span class="icon-bar"></span>
-  						<span class="icon-bar"></span>
-  						<span class="icon-bar"></span>
-  					</button>
-    				<a class="navbar-brand" href="<?php echo home_url(); ?>" rel="home">
-      				<img class="logo img-responsive" src="<?php echo of_get_option('logo_image'); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"/>
-      		  </a>
-          </div>
-          <?php
-            wp_nav_menu( array(
-                'menu'              => 'main-navigation',
-                'theme_location'    => 'main-navigation',
-                'depth'             => 2,
-                'container'         => 'div',
-                'container_class'   => 'collapse navbar-collapse',
-        'container_id'      => 'navbar',
-                'menu_class'        => 'nav navbar-nav',
-                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-                'walker'            => new wp_bootstrap_navwalker())
-            );
+	<header id="header" role="banner">
+		<nav id="main-navigation" class="navbar navbar-default <?php if(of_get_option('navbar_pos')=='fixed-top') { echo 'navbar-fixed-top'; } ?>" role="navigation">
+			<div class="<?php shoelace_container(); ?>">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+  					<span class="sr-only"><?php _e( 'Toggle navigation', 'shoelace' ); ?></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+  				<a class="navbar-brand" href="<?php echo home_url(); ?>" rel="home">
+    				<?php shoelace_logo_html(); ?>
+    		  </a>
+        </div>
+        <?php wp_nav_menu( array(
+              'menu'              => 'main-navigation',
+              'theme_location'    => 'main-navigation',
+              'depth'             => 2,
+              'container'         => 'div',
+              'container_class'   => 'collapse navbar-collapse',
+              'container_id'      => 'navbar',
+              'menu_class'        => 'nav navbar-nav',
+              'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+              'walker'            => new wp_bootstrap_navwalker())
+          ); ?>
 
-        ?>
-				  <div class="collapse navbar-collapse navbar-main-navigation"></div><!-- .navbar-collapse -->
-  			</div><!-- .container -->
-			</nav><!-- #main-menu -->
+			</div><!-- .container -->
+		</nav><!-- #main-menu -->
 
-			<?php
-				$header_image = get_header_image();
-				if ( ! empty( $header_image ) ) :
-			?>
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $header_image ); ?>" height="<?php esc_attr_e( $header_image->height ); ?>" width="<?php esc_attr_e( $header_image->width ); ?>" alt="" /></a>
-			<?php endif; ?>
-		</header><!-- #header -->
+		<?php
+			$header_image = get_header_image();
+			if ( ! empty( $header_image ) ) :
+		?>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $header_image ); ?>" height="<?php esc_attr_e( $header_image->height ); ?>" width="<?php esc_attr_e( $header_image->width ); ?>" alt="" /></a>
+		<?php endif; ?>
+	</header><!-- #header -->

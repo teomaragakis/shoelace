@@ -70,6 +70,11 @@ function my_theme_register_required_plugins() {
             'required'  => true,
         ),
         array(
+            'name'      => 'Categories Images',
+            'slug'      => 'categories-images',
+            'required'  => false,
+        ),
+        array(
             'name'      => 'Google Analytics by Yoast',
             'slug'      => 'google-analytics-for-wordpress',
             'required'  => true,

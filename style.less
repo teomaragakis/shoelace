@@ -1,0 +1,185 @@
+/**
+ * Theme Name:  Shoelace
+ * Theme URI:   http://wordpress.org/themes
+ * Description: A free Bootstrap theme for WordPress
+ * Author:      Teo Maragakis
+ * Author URI:  http://www.teomaragakis.com
+ * Version:     0.1.0
+ * Tags:        Bootstrap, Grunt
+ *
+ * License:     GPLv2+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+@import "includes/bootstrap/css/bootstrap.min.css";
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+#main-navigation {
+  margin-bottom: 0;
+}
+
+main {
+  padding: 20px 0;
+  .entry-content {
+  padding-top: 20px;
+  p {
+    text-align: justify;
+  }
+}
+}
+
+section {
+  &.cover {
+    background-size: cover;
+    height: 500px;
+    background-position: center;
+    position: relative;
+    .inner {
+      position: absolute;
+      bottom: 0;
+
+      h1 {
+        color: white;
+        margin-bottom: 30px;
+        text-shadow: 3px 3px 5px #000;
+      }
+    }
+  }
+  &.parallax {
+  min-height: 100%;
+  .parallax-inner {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    height: 100vh;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    .content {
+      display: table-cell;
+      vertical-align: middle;
+      height: 100vh;
+      width: 100vw;
+      color: #ffffff;
+      text-align: center;
+      h1 {
+        margin-top: 0;
+
+      }
+    }
+  }
+}
+}
+
+footer {
+  font-size: 90%;
+  .row {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    ul {
+      //list-style: none;
+      //padding: 0;
+      &.sub-menu {
+        font-size: 90%;
+      }
+    }
+    &.menu {
+      #footer-nav {
+        .menu-item {
+          a {
+            padding-left: 0;
+            &:hover {
+              background-color: inherit;
+            }
+          }
+        }
+      }
+    }
+    &.widget-area {
+      .widget {
+      }
+    }
+  }
+}
+
+// extras
+
+.masonry .item {
+  margin-bottom: 30px;
+  &.last {
+    margin-bottom: 0;
+  }
+}
+
+// keyboard styles
+
+kbd {
+	//color: #aaa;
+	color: #888;
+	font-size: 80%;
+	padding: 3px 5px;
+	text-decoration: none;
+	text-align: center;
+	margin: 5px;
+	background: #eff0f2;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border-top: 1px solid #f5f5f5;
+	-webkit-box-shadow:
+		inset 0 0 25px #e8e8e8,
+		0 1px 0 #c3c3c3,
+		0 2px 0 #c9c9c9,
+		0 2px 3px #333;
+	-moz-box-shadow:
+		inset 0 0 25px #e8e8e8,
+		0 1px 0 #c3c3c3,
+		0 2px 0 #c9c9c9,
+		0 2px 3px #333;
+	box-shadow:
+		inset 0 0 25px #e8e8e8,
+		0 1px 0 #c3c3c3,
+		0 2px 0 #c9c9c9,
+		0 2px 3px #333;
+	text-shadow: 0px 1px 0px #f5f5f5;
+
+	&:active {
+  	color: #888;
+  	background: #ebeced;
+  	margin: 7px 5px 3px;
+  	-webkit-box-shadow:
+  		inset 0 0 25px #ddd,
+  		0 0 3px #333;
+  	-moz-box-shadow:
+  		inset 0 0 25px #ddd,
+  		0 0 3px #333;
+  	box-shadow:
+  		inset 0 0 25px #ddd,
+  		0 0 3px #333;
+  	border-top: 1px solid #eee;
+  }
+}
+
+// Bootstrap theme fix
+nav,
+.navbar,
+.navbar-default {
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+}
+
+// zoom.jz fix
+
+.zoom-overlay {
+  pointer-events: initial !important;
+}

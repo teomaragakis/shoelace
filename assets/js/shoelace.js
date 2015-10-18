@@ -4,5 +4,22 @@
 ( function( window, undefined ) {
 	'use strict';
 
+	// dropcaps
+  var dropcaps = document.querySelectorAll(".dropcap");
+  window.Dropcap.layout(dropcaps, 3);
 
  } )( this );
+
+ jQuery(document).ready(function($){
+    // Target your .container, .wrapper, .post, etc.
+    $(".entry-content").fitVids();
+
+    $("img.lazy").lazyload({
+      effect : "fadeIn"
+    });
+
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+
+  });

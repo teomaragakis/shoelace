@@ -1,0 +1,1 @@
+<?php edit_post_link( __( 'Edit', 'shoelace' ), '<span class="edit-link">', '</span>' ); ?>

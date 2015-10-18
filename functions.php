@@ -93,11 +93,53 @@ $custom_header = array(
 add_theme_support( 'custom-header', $custom_header );
 */
 
+function register_shoelace_sidebars() {
+
+  $footer_cols = of_get_option('footer_columns');
+  switch($footer_cols) {
+    case 0:
+      $col_classes = '';
+    case 2:
+      $col_classes = 'col-sm-6';
+      break;
+    case 3:
+      $col_classes = 'col-sm-4';
+      break;
+    case 4:
+      $col_classes = 'col-sm-3';
+      break;
+    case 6:
+      $col_classes = 'col-sm-2';
+      break;
+  }
+
+  if (function_exists('register_sidebar')) {
+    register_sidebar(array(
+      'name' => __( 'Sidebar', 'shoelace' ),
+      'id' => 'sidebar',
+      'before_widget' => '',
+      'after_widget' => '',
+      'before_title' => '',
+      'after_title' => ''
+    ));
+    register_sidebar(array(
+      'name' => __( 'Footer Widgets', 'shoelace' ),
+      'id' => 'footer_widgets',
+      'before_widget' => '<div id="%1$s" class="widget %2$s '. $col_classes.'">',
+      'after_widget' => '</div>',
+      'before_title' => '<h3 class="widget_title">',
+      'after_title' => '</h3>'
+    ));
+  }
+}
+add_action( 'widgets_init', 'register_shoelace_sidebars' );
+
 $custom_bg = array(
 	'default-color' => '',
 	'default-image' => '',
 );
 
+add_theme_support( 'html5', array( 'comment-list' ) );
 add_theme_support( 'custom-background', $custom_bg );
 
 function add_excerpts_to_pages() {
@@ -105,116 +147,46 @@ function add_excerpts_to_pages() {
 }
 add_action( 'init', 'add_excerpts_to_pages' );
 
-function register_main_menu() {
+function register_shoelace_menus() {
   register_nav_menu('main-navigation',__( 'Main Navigation' ));
+  register_nav_menu('footer-navigation',__( 'Footer Navigation' ));
 }
-add_action( 'init', 'register_main_menu' );
+add_action( 'init', 'register_shoelace_menus' );
 
-// Register Custom Navigation Walker
+// Include Walkers
 require_once('core/wp_bootstrap_navwalker.php');
+require_once('core/class-wp-bootstrap-comment-walker.php');
 
-/*
-	 * Let WordPress manage the document title.
-	 * By adding theme support, we declare that this theme does not use a
-	 * hard-coded <title> tag in the document head, and expect WordPress to
-	 * provide it for us.
-	 */
+  // Let WordPress manage the document title (no hard-coded <title> tag in the head).
+
 	add_theme_support( 'title-tag' );
 
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
+  // Set up theme defaults and register supported WordPress features. @uses load_theme_textdomain() For translation/localization support.
+
  function shoelace_setup() {
 	/**
-	 * Makes Shoelace available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
+	 * Makes Shoelace available for translation. Translations can be added to the /lang directory.
 	 * If you're building a theme based on Shoelace, use a find and replace
 	 * to change 'shoelace' to the name of your theme in all template files.
 	 */
 	//load_theme_textdomain( 'shoelace', get_template_directory() . '/languages' );
 	// http://codex.wordpress.org/Function_Reference/load_theme_textdomain
  }
- add_action( 'after_setup_theme', 'shoelace_setup' );
+ //add_action( 'after_setup_theme', 'shoelace_setup' );
 
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function shoelace_scripts_styles() {
+require_once 'core/scripts_styles.php';
 
-  // jQuery
-	wp_enqueue_script( 'jquery' );
+require_once 'core/layout.php';
 
-	// Bootstrap
-	wp_enqueue_style( 'bootstrap', PARENT_THEME_URI . '/includes/bootstrap/css/bootstrap.min.css', array(), null, 'all' );
-	wp_enqueue_script( 'bootstrap', PARENT_THEME_URI . '/includes/bootstrap/js/bootstrap.min.js', array(), null, true );
-	wp_enqueue_style( 'bootstrap-theme', CHILD_THEME_URI . '/includes/bootstrap/css/bootstrap-theme.css', array(), null, 'all' );
-
-	// Font Awesome
-	wp_enqueue_style('font-awesome', PARENT_THEME_URI . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
-
-	// Parent style.css
-	wp_enqueue_style( 'shoelace', PARENT_THEME_URI . '/style.css', array(), null, 'all' );
-
-	// less.php compiler
-  require_once 'includes/less.php/Less.php';
-
-
-  $parser = new Less_Parser(array( 'compress'=>true ));
-  $parser->parseFile( get_stylesheet_directory() . '/style.less', get_stylesheet_directory_uri() . 'asda' );
-  $css = $parser->getCss();
-
-
-
-	// Child style.css
-	wp_enqueue_style( 'shoelace-child', get_stylesheet_uri(), array(), null, 'all' );
-
-	/// OTHER
-
-	// FitVids.
-	//wp_enqueue_script( 'fitvids', PARENT_THEME_URI . '/assets/js/jquery.fitvids.js', array(), null, true );
-
-	// Lazy Load
-	// ---------
-	//wp_enqueue_script( 'lazyload', PARENT_THEME_URI . '/includes/lazyload/jquery.lazyload.min.js', array(), 'jquery', '1.9.5' );
-
-
-	//BeLazy
-	wp_enqueue_script('belazy', PARENT_THEME_URI.'/includes/belazy/blazy.min.js', null, '1.3.1');
-
-	// Zoom.js
-	wp_enqueue_style('zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.css', array(), null, 'all');
-	wp_enqueue_script( 'zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.js', array(), null, true );
-
-	// jQuery FitText
-	wp_enqueue_script('fittext', PARENT_THEME_URI.'/includes/fittext/jquery.fittext.js', 'jquery', '1.2.0');
-
-	// jQuery ScrollMe
-	wp_enqueue_script('scrollme', PARENT_THEME_URI.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
-
-
-	// Theme's jQuery.
-	wp_enqueue_script( 'shoelace-js', PARENT_THEME_URI . '/assets/js/shoelace.js', array(), null, true );
- }
- add_action( 'wp_enqueue_scripts', 'shoelace_scripts_styles' );
-
- /**
-  * Add humans.txt to the <head> element.
-  */
+ // Add humans.txt and ie conditional html5 shim to the <head> element.
  function shoelace_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_template_directory_uri() . '/humans.txt" />';
+	$humans = '<link type="text/plain" rel="author" href="' . get_template_directory_uri() . '/humans.txt" /><!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 
 	echo apply_filters( 'shoelace_humans', $humans );
  }
  add_action( 'wp_head', 'shoelace_header_meta' );
 
-function add_responsive_class($content){
+function add_image_classes($content){
 
   $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
   $document = new DOMDocument();
@@ -225,7 +197,7 @@ function add_responsive_class($content){
   $imgs = $document->getElementsByTagName('img');
   foreach ($imgs as $img) {
     $existing_class = $img->getAttribute('class');
-    $img->setAttribute('class', "img-responsive $existing_class");
+    $img->setAttribute('class', "img-responsive $existing_class lazy");
     $img->setAttribute('data-action','zoom');
   }
 
@@ -233,10 +205,44 @@ function add_responsive_class($content){
   return $html;
 }
 
-add_filter ('the_content', 'add_responsive_class');
+add_filter ('the_content', 'add_image_classes');
 
 // Recommended and required plugins
 require_once 'includes/tgm-plugin-activation-2.4.2/plugins.php';
 
 // https://github.com/joshtronic/php-loremipsum
 require_once 'core/php-loremipsum/LoremIpsum.php';
+require_once 'core/metaboxes.php';
+require_once 'core/customizer.php';
+
+/**
+ * Improves the WordPress caption shortcode with HTML5 figure & figcaption, microdata & wai-aria attributes
+ *
+ * Author: @joostkiens
+ * Licensed under the MIT license
+ *
+ * @param  string $val     Empty
+ * @param  array  $attr    Shortcode attributes
+ * @param  string $content Shortcode content
+ * @return string          Shortcode output
+ */
+function my_img_caption_shortcode_filter( $val, $attr, $content = null ) {
+  extract( shortcode_atts( array(
+  	'id'      => '',
+		'align'   => 'aligncenter',
+		'width'   => '',
+		'caption' => ''
+	), $attr ) );
+
+	// No caption, no dice...
+	if ( 1 > (int) $width || empty( $caption ) )
+		return $val;
+
+	if ( $id )
+		$id = esc_attr( $id );
+
+	// Add itemprop="contentURL" to image - Ugly hack
+	$content = str_replace('<img', '<img itemprop="contentURL"', $content);
+	return '<figure id="' . $id . '" aria-describedby="figcaption_' . $id . '" class="wp-caption ' . esc_attr($align) . '" itemscope itemtype="http://schema.org/ImageObject">' . do_shortcode( $content ) . '<figcaption id="figcaption_'. $id . '" class="wp-caption-text" itemprop="description">' . $caption . '</figcaption></figure>';
+}
+add_filter( 'img_caption_shortcode', 'my_img_caption_shortcode_filter', 10, 3 );

@@ -19,61 +19,13 @@ function optionsframework_option_name() {
 
 function optionsframework_options() {
 
-  $navbar_pos_array = array(
+
+	$post_header_array = array(
 		'none' => __('None', 'shoelace'),
-		'fixed-top' => __('Fixed on top', 'shoelace')
+		'parallax-cover' => __('Parallax cover', 'shoelace'),
+		'cover-image' => __('Cover image', 'shoelace')
 	);
-
-	// Scripts
-
-	$scripts_defaults = array(
-		'fontawesome' => '1',
-		'zoomjs' => '1',
-		'fitvids' => '1'
-	);
-
-	$scripts_array = array(
-		'fontawesome' => __('Font Awesome', 'shoelace'),
-		'belazy' => __('BeLazy', 'shoelace'),
-		'zoomjs' => __('zoom.js', 'shoelace'),
-		'fitvids' => __('FitVids', 'shoelace')
-  );
-
-  $jquery_defaults = array(
-
-	);
-
-	$jquery_plugins = array(
-  	'fittext' => __('FitText','shoelace'),
-  	'scrollme' => __('ScrollMe','shoelace') //https://github.com/nckprsn/scrollme
-	);
-
-	// Test data
-	/*$test_array = array(
-		'one' => __('One', 'shoelace'),
-		'two' => __('Two', 'shoelace'),
-		'three' => __('Three', 'shoelace'),
-		'four' => __('Four', 'shoelace'),
-		'five' => __('Five', 'shoelace')
-	);
-
-
-
-	// Multicheck Array
-	$multicheck_array = array(
-		'one' => __('French Toast', 'shoelace'),
-		'two' => __('Pancake', 'shoelace'),
-		'three' => __('Omelette', 'shoelace'),
-		'four' => __('Crepe', 'shoelace'),
-		'five' => __('Waffle', 'shoelace')
-	);
-
-	// Multicheck Defaults
-	$multicheck_defaults = array(
-		'one' => '1',
-		'five' => '1'
-	);
-
+	/*
 	// Background Defaults
 	$background_defaults = array(
 		'color' => '',
@@ -139,8 +91,14 @@ function optionsframework_options() {
 
   $options[] = array(
 		'name' => __('Website Logo', 'shoelace'),
-		'desc' => __('Upload or select a logo image. It will appear in the header.', 'shoelace'),
+		'desc' => __('Upload a logo image. It will appear in the header.', 'shoelace'),
 		'id' => 'logo_image',
+		'type' => 'upload'
+  );
+  $options[] = array(
+		'name' => __('Inverted Logo', 'shoelace'),
+		'desc' => __('Upload an inverted logo image. It is used in special locations.', 'shoelace'),
+		'id' => 'inv_logo_image',
 		'type' => 'upload'
   );
 
@@ -150,6 +108,38 @@ function optionsframework_options() {
 		'id' => 'favicon',
 		'type' => 'upload'
   );
+
+  $options[] = array(
+		'name' => __('Footer Rows', 'shoelace'),
+		'desc' => __('Choose which rows to enable in the footer.', 'shoelace'),
+		'id' => 'footer_rows',
+		'std' =>  array('widgets'),
+		'type' => 'multicheck',
+		'options' =>  array(
+      'widgets' => __('Widgetized area', 'shoelace'),
+      'menu' => __('Menu', 'shoelace'),
+      'static' => __('Static content row', 'shoelace')
+    ));
+
+  $options[] = array(
+		'name' => __('Footer columns', 'shoelace'),
+		'desc' => __('Choose the mumber of widgetized columns to show in the footer.', 'shoelace'),
+		'id' => 'footer_columns',
+		'type' => 'select',
+		'std' =>  4,
+		'options' => array(
+  		0 => __('No classes added', 'shoelace'),
+  		2 => __('Two', 'shoelace'),
+  		3 => __('Three', 'shoelace'),
+  		4 => __('Four', 'shoelace')
+  	));
+
+  $options[] = array(
+		'name' => __('Footer Text', 'shoelace'),
+		'desc' => __('The text which will appear at the footer.', 'shoelace'),
+		'id' => 'footer_text',
+		'std' => 'Copyright 2015.',
+		'type' => 'textarea');
 
   /*
 	$options[] = array(
@@ -251,97 +241,166 @@ function optionsframework_options() {
 		'std' => null, // These items get checked by default
 		'type' => 'multicheck',
 		'options' =>  array(
-		                'portfolio' => __('Portfolio', 'shoelace')
-                  )
+		  'portfolio' => __('Portfolio', 'shoelace'))
   ); */
 
 
 /*== Layout Settings == */
 
-	$options[] = array(
-		'name' => __('Layout', 'shoelace'),
-		'type' => 'heading');
+$options[] = array(
+	'name' => __('Layout', 'shoelace'),
+	'type' => 'heading'
+);
+
+$options[] = array(
+	'name' => "Container Type",
+	'desc' => "Should containers be flexible or fixed?",
+	'id' => "container",
+	'std' => "contained",
+	'type' => "images",
+	'options' => array(
+		'contained' => $imagepath . 'fixed.png',
+		'flexible' => $imagepath . 'flex.png')
+);
+
+$options[] = array(
+	'name' => __('Navbar position', 'shoelace'),
+	'desc' => __('How you want the navbar position set.', 'shoelace'),
+	'id' => 'navbar_pos',
+	'std' => 'none',
+	'type' => 'radio',
+	'options' => array(
+		'none' => __('None', 'shoelace'),
+		'fixed-top' => __('Fixed on top', 'shoelace')
+	)
+);
+
+$options[] = array(
+	'name' => "Archive Layout",
+	'desc' => "Layout of archive pages.",
+	'id' => "archive_layout",
+	'std' => "fullwidth",
+	'type' => "images",
+	'options' => array(
+		'fullwidth' => $imagepath . 'full.png',
+		'2c-l-fixed' => $imagepath . '2cl.png',
+		'2c-r-fixed' => $imagepath . '2cr.png'
+	)
+);
+
+$options[] = array(
+	'name' => __('Archive Contents', 'shoelace'),
+	'desc' => __('How would you like the archive page to appear?', 'shoelace'),
+	'id' => 'archive_contents',
+	'std' => 'masonry',
+	'type' => 'radio',
+	'options' => array(
+  	'masonry' => __('Grid (Masonry)', 'shoelace'),
+  	'list' => __('List', 'shoelace')
+	)
+);
+
+$options[] = array(
+	'name' => __('Post Header', 'shoelace'),
+	'desc' => __('Which type of header would you like for regular posts?', 'shoelace'),
+	'id' => 'post_header',
+	'std' => 'none',
+	'type' => 'radio',
+	'options' => $post_header_array
+);
+
+$options[] = array(
+	'name' => "Post Layout",
+	'desc' => "Layout of blog posts.",
+	'id' => "post_layout",
+	'std' => "fullwidth",
+	'type' => "images",
+	'options' => array(
+		'fullwidth' => $imagepath . 'full.png',
+		'2c-l-fixed' => $imagepath . '2cl.png',
+		'2c-r-fixed' => $imagepath . '2cr.png'
+	)
+);
 
 	$options[] = array(
-		'name' => __('Navbar position', 'shoelace'),
-		'desc' => __('How you want the navbar position set.', 'shoelace'),
-		'id' => 'navbar_pos',
+		'name' => __('Page Header', 'shoelace'),
+		'desc' => __('Which type of header would you like for regular posts?', 'shoelace'),
+		'id' => 'page_header',
 		'std' => 'none',
 		'type' => 'radio',
-		'options' => $navbar_pos_array
+		'options' => $post_header_array
   );
 
   $options[] = array(
-		'name' => __('Header Layout', 'shoelace'),
-		'desc' => __('Header content', 'shoelace'),
-		'id' => 'header_layout',
-		'std' => 'none',
-		'type' => 'radio',
-		'options' => $navbar_pos_array
-  );
+		'name' => "Page Layout",
+		'desc' => "Layout of pages.",
+		'id' => "page_layout",
+		'std' => "fullwidth",
+		'type' => "images",
+		'options' => array(
+			'fullwidth' => $imagepath . 'full.png',
+			'2c-l-fixed' => $imagepath . '2cl.png',
+			'2c-r-fixed' => $imagepath . '2cr.png')
+	);
 
-
-		$options[] = array(
-  		'name' => "Container Type",
-  		'desc' => "Should the container be flexible or fixed?",
-  		'id' => "container",
-  		'std' => "contained",
-  		'type' => "images",
-  		'options' => array(
-    		'contained' => $imagepath . 'fixed.png',
-  			'flexible' => $imagepath . 'flex.png')
-
-  	);
-
-  	$options[] = array(
-  		'name' => "Page Layout",
-  		'desc' => "Layout of pages.",
-  		'id' => "page-layout",
-  		'std' => "fullwidth",
-  		'type' => "images",
-  		'options' => array(
-  			'fullwidth' => $imagepath . 'full.png',
-  			'2c-l-fixed' => $imagepath . '2cl.png',
-  			'2c-r-fixed' => $imagepath . '2cr.png')
-  	);
-
-  	$options[] = array(
+	$options[] = array(
 		'name' => __('Show comments on pages', 'shoelace'),
 		'desc' => __('Check to show comments on pages.', 'shoelace'),
 		'id' => 'page_comments',
-		'type' => 'checkbox');
+		'type' => 'checkbox'
+  );
+
+
 
     $options[] = array(
-  		'name' => "Post Layout",
-  		'desc' => "Layout of blog posts.",
-  		'id' => "post-layout",
-  		'std' => "fullwidth",
-  		'type' => "images",
-  		'options' => array(
-  			'fullwidth' => $imagepath . 'full.png',
-  			'2c-l-fixed' => $imagepath . '2cl.png',
-  			'2c-r-fixed' => $imagepath . '2cr.png')
-  	);
-
-  		$options[] = array(
-		'name' => __('Development', 'shoelace'),
-		'type' => 'heading');
+    	'name' => __('Development', 'shoelace'),
+    	'type' => 'heading'
+    );
 
 		$options[] = array(
 		'name' => __('Scripts', 'shoelace'),
 		'desc' => __('Select which scripts to enable.', 'shoelace'),
 		'id' => 'dev_scripts',
-		'std' => $scripts_defaults, // These items get checked by default
+		'std' => array(
+  		'fontawesome' => '1',
+  		'zoomjs' => '1'
+  	), // These items get checked by default
 		'type' => 'multicheck',
-		'options' => $scripts_array);
+		'options' => array(
+  		'fontawesome' => 'Font Awesome',
+  		'zoomjs' => 'zoom.js',
+  		'masonry' => 'Masonry',
+  		'dropcap' => 'dropcap.js',
+  		'highlight' => 'highlight.js'
+    ));
 
 		$options[] = array(
 		'name' => __('jQuery Plugins', 'shoelace'),
 		'desc' => __('Select which jQuery plugins to enable.', 'shoelace'),
 		'id' => 'dev_jquery',
-		'std' => $jquery_defaults, // These items get checked by default
+		'std' => array(
+  		'fitvids' => '1'
+		), // These items get checked by default
 		'type' => 'multicheck',
-		'options' => $jquery_plugins);
+		'options' => array(
+    	'fittext' => 'FitText', //
+    	'fitvids' => 'FitVids', // https://github.com/davatron5000/FitVids.js
+    	'lazyload' => 'Lazy Load', //
+    	'lettering' => 'lettering.js', // https://github.com/davatron5000/Lettering.js
+    	'scrollme' => 'ScrollMe' // https://github.com/nckprsn/scrollme
+  	));
+
+  	$options[] = array(
+		'name' => __('Other', 'shoelace'),
+		'desc' => __('Select other developer goodies to enable.', 'shoelace'),
+		'id' => 'dev_other',
+		'std' => array(
+  		'bs_shortcodes' => '1'
+		), // These items get checked by default
+		'type' => 'multicheck',
+		'options' => array(
+    	'bs_shortcodes' => 'Bootstrap 3 Shortcodes'
+  	));
 
 
 /*==========================
@@ -390,14 +449,6 @@ function optionsframework_options() {
 		'type' => 'background' );
 
 	$options[] = array(
-		'name' => __('Multicheck', 'shoelace'),
-		'desc' => __('Multicheck description.', 'shoelace'),
-		'id' => 'example_multicheck',
-		'std' => $multicheck_defaults, // These items get checked by default
-		'type' => 'multicheck',
-		'options' => $multicheck_array);
-
-	$options[] = array(
 		'name' => __('Colorpicker', 'shoelace'),
 		'desc' => __('No color selected by default.', 'shoelace'),
 		'id' => 'example_colorpicker',
@@ -423,6 +474,19 @@ function optionsframework_options() {
 		'type' => 'heading' );
 
 		*/
+		if (function_exists('sed_footer_text')) {
+  		$options[] = array(
+  		'name' => __('SED+', 'shoelace'),
+  		'type' => 'heading');
+
+  		$options[] = array(
+    		'name' => __('Footer logo', 'shoelace'),
+    		'desc' => __('Enable SED+ footer logo.', 'shoelace'),
+    		'id' => 'sed_foot_logo',
+    		'std' => '1',
+    		'type' => 'checkbox');
+		}
+
 
 
 

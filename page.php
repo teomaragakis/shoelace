@@ -1,30 +1,34 @@
 <?php
 /**
- * The main page template
- *
- * @package Shoelace
- * @since 0.1.0
- */ ?>
- <?php get_header(); ?>
- <section id="main">
-   <div class="container">
-     <?php // Start the loop.
-  		while ( have_posts() ) : the_post();
+  * The main page template
+  *
+  * @package Shoelace
+  * @since 0.1.0
+*/ ?>
+<?php get_header(); ?>
+<?php switch (of_get_option( 'post_header')) {
+  case "parallax-cover":
+    get_template_part('partials/header', 'parallax');
+    break;
+  case "cover-image":
+    get_template_part('partials/header', 'cover');
+    break;
+} ?>
+<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-  			// Include the page content template.
-  			get_template_part( 'partials/content', 'page' );
+<main id="main">
 
-  			if(of_get_option('page_comments',true)) {
-    			// If comments are open or we have at least one comment, load up the comment template.
-    			if ( comments_open() || get_comments_number() ) :
-    				comments_template();
-    			endif;
-  			}
-
-
-
-  		// End the loop.
-  		endwhile; ?>
+  <div class="breadcrumbs">
+    <div class="<?php shoelace_container(); ?>">
+      <?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb(); } ?>
+    </div>
+  </div>
+  <div class="<?php shoelace_container(); ?>">
+    <?php get_template_part( 'partials/content', 'page' ); ?>
+    <?php get_template_part( 'partials', 'comments' ); ?>
    </div>
- </section>
+ </main>
+ <?php endwhile; else : ?>
+      	<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+      <?php endif; ?>
  <?php get_footer(); ?>
