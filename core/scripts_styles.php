@@ -18,15 +18,11 @@
 	// Child style.css which includes bootstrap theme
 	wp_enqueue_style( 'shoelace-child', get_stylesheet_uri(), array(), null, 'all' );
 
-
-
-
 	// Bootstrap JS
-	wp_enqueue_script( 'bootstrap', PARENT_THEME_URI . '/includes/bootstrap/js/bootstrap.min.js', array(), null, true );
+	wp_enqueue_script( 'bootstrap', PARENT_THEME_URI . '/assets/vendor/bootstrap/dist/js/bootstrap.min.js', array(), null, true );
 
-	// Font Awesome
-	if ($dev_scripts['fontawesome'] == true) {
-  	wp_enqueue_style('font-awesome', PARENT_THEME_URI . '/includes/font-awesome/css/font-awesome.min.css', array(), null, 'all');
+	if ($dev_scripts['fontawesome'] == true) { // Font Awesome
+  	wp_enqueue_style('font-awesome', PARENT_THEME_URI . '/assets/vendor/font-awesome/css/font-awesome.min.css', array(), null, 'all');
 	}
 	// less.php compiler
   require_once get_template_directory() . '/includes/less.php/Less.php';
@@ -36,51 +32,39 @@
   $css = $parser->getCss();*/
 
 
-  //zoom.js
-	if ($dev_scripts['zoomjs'] == true) {
+
+	if ($dev_scripts['zoomjs'] == true) { //zoom.js #todo
   	wp_enqueue_style('zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.css', array(), null, 'all');
   	wp_enqueue_script( 'zoom-js', PARENT_THEME_URI . '/includes/zoom.js/zoom.js', array(), null, true );
   }
-
-  // Masonry
-	if ($dev_scripts['masonry'] == true) {
-  	wp_enqueue_script( 'masonry', PARENT_THEME_URI . '/includes/masonry.pkgd.min.js', array(), '3.3.2', true );
+	if ($dev_scripts['masonry'] == true) { // Masonry
+  	wp_enqueue_script( 'masonry', PARENT_THEME_URI . '/assets/vendor/dist/masonry.pkgd.min.js', array(), null, true );
 	}
-
-	// dropcap.js
-	if ($dev_scripts['dropcap'] == true) {
-  	wp_enqueue_script( 'dropcap-js', PARENT_THEME_URI . '/includes/dropcap.js-1.0.0/dropcap.min.js', array(), '1.0.0', true );
+	if ($dev_scripts['dropcap'] == true) { // dropcap.js
+  	wp_enqueue_script( 'dropcap-js', PARENT_THEME_URI . '/assets/vendor/dropcap.js/dropcap.min.js', array(), null, true );
 	}
-
-	// highlight.js
-	if ($dev_scripts['highlight'] == true) {
-  	wp_enqueue_script( 'highlight-js', PARENT_THEME_URI . '/includes/highlight/highlight.pack.js', array(), '8.8.0', true );
+	if ($dev_scripts['parallax'] == true) { // parallax.js
+  	wp_enqueue_script( 'parallax-js', PARENT_THEME_URI . '/assets/vendor/parallax.js/parallax.min.js', array(), null, true );
+	}
+	if ($dev_scripts['highlight'] == true) { // highlight.js
+  	wp_enqueue_script( 'highlight-js', PARENT_THEME_URI . '/includes/highlight/highlight.pack.js', array(), null, true );
   	wp_enqueue_style('highlight-js', PARENT_THEME_URI . '/includes/highlight/styles/solarized_dark.css', array(), null, 'all');
 	}
-
-	// jQuery FitText
-	if ($dev_jquery['fittext'] == true) {
-  	wp_enqueue_script('fittext', PARENT_THEME_URI.'/includes/jquery.fittext.js', 'jquery', '1.2.0');
+	if ($dev_jquery['fittext'] == true) { // jQuery FitText
+  	wp_enqueue_script('fittext', PARENT_THEME_URI.'/assets/vendor/FitText.js/jquery.fittext.js', 'jquery', null);
 	}
-
-	// jQuery FitText
-	if ($dev_jquery['lettering'] == true) {
-  	wp_enqueue_script('lettering', PARENT_THEME_URI.'/includes/jquery.lettering.js', 'jquery', '0.7.0');
+	if ($dev_jquery['lettering'] == true) { // jQuery FitText
+  	wp_enqueue_script('lettering', PARENT_THEME_URI.'/assets/vendor/letteringjs/jquery.lettering.js', 'jquery', null);
 	}
-
-	  // FitVids
-	if ($dev_jquery['fitvids'] == true) {
-  	wp_enqueue_script( 'fitvids', PARENT_THEME_URI . '/includes/jquery.fitvids.js', 'jquery', '1.1.0');
+	if ($dev_jquery['fitvids'] == true) { // FitVids
+  	wp_enqueue_script( 'fitvids', PARENT_THEME_URI . '/assets/vendor/jquery.fitvids/jquery.fitvids.js', 'jquery', null);
 	}
-
-	//LazyLoad
-	if ($dev_jquery['lazyload'] == true) {
-  	wp_enqueue_script('lazyload', PARENT_THEME_URI.'/includes/jquery.lazyload.min.js', 'jquery', '1.9.5');
+	if ($dev_jquery['lazyload'] == true) { //LazyLoad
+  	wp_enqueue_script('lazyload', PARENT_THEME_URI.'/assets/vendor/jquery_lazyload/jquery.lazyload.js', 'jquery', null);
   }
-
 	// jQuery ScrollMe
 	if ($dev_jquery['scrollme'] == true) {
-  	wp_enqueue_script('scrollme', PARENT_THEME_URI.'/includes/scrollme/jquery.scrollme.min.js', 'jquery', '1.1.0');
+  	wp_enqueue_script('scrollme', PARENT_THEME_URI.'/assets/vendor/scrollme/jquery.scrollme.min.js', 'jquery', null);
 	}
 
 	// Theme's js

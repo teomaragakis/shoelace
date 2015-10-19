@@ -371,7 +371,8 @@ $options[] = array(
   		'zoomjs' => 'zoom.js',
   		'masonry' => 'Masonry',
   		'dropcap' => 'dropcap.js',
-  		'highlight' => 'highlight.js'
+  		'highlight' => 'highlight.js',
+  		'parallax' => 'parallax.js'
     ));
 
 		$options[] = array(
