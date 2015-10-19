@@ -1,17 +1,5 @@
-Todo:
-=
+# shoelace
 
-* Implement settings
-* Add settings for all special icons (apple, android, favicon).
-* Add features
-* Add PHP classes
-* add changelog
-* Settings for script enabling
-* Find better way to suggest plugins (with backend UI)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/teomaragakis/shoelace?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Changelog
-=
-
-1.0b
--
-Initial release
+A @WordPress theme, built with @Bootstrap and love. Not to be considered production-ready until version 1.0.0.
