@@ -3,10 +3,17 @@
   "title": "Shoelace",
   "description": "A free Bootstrap theme for WordPress",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teomaragakis/shoelace.git"
+  },
   "homepage": "http://www.teomaragakis.com",
   "author": {
     "name": "Teo Maragakis",
     "email": "teomaragakis@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/teomaragakis/shoelace/issues"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
